@@ -2,8 +2,6 @@ package com.jash.qswiki.adapters;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.v4.view.ViewCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +56,6 @@ public class ArticleItemAdapter extends BaseAdapter {
         }
         ViewHolder holder = (ViewHolder) convertView.getTag();
         ArticleItem item = list.get(position);
-        holder.item = item;
         if (item.getUser() == null) {
             holder.user_name.setText("匿名用户");
             holder.user_icon.setImageURI(Uri.parse("res:///" + R.mipmap.default_anonymous_users_avatar));
@@ -79,6 +76,7 @@ public class ArticleItemAdapter extends BaseAdapter {
         } else {
             holder.image.setVisibility(View.GONE);
         }
+        holder.group.setOnCheckedChangeListener(item);
         switch (item.getSupportSate()) {
             case 1:
                 holder.group.check(R.id.support);
@@ -87,7 +85,7 @@ public class ArticleItemAdapter extends BaseAdapter {
                 holder.group.check(R.id.unsupport);
                 break;
             default:
-//                holder.group.clearCheck();
+                holder.group.clearCheck();
                 break;
         }
         holder.support.setText("好笑:" + String.valueOf(item.getVotes().getUp()));
@@ -100,8 +98,12 @@ public class ArticleItemAdapter extends BaseAdapter {
         list.addAll(collection);
         notifyDataSetChanged();
     }
+    public void clear(){
+        list.clear();
+        notifyDataSetChanged();
+    }
 
-    public static class ViewHolder implements RadioGroup.OnCheckedChangeListener {
+    public static class ViewHolder {
         private RadioGroup group;
         private TextView user_name;
         private TextView content;
@@ -110,7 +112,6 @@ public class ArticleItemAdapter extends BaseAdapter {
         private SimpleDraweeView image;
         private RadioButton support;
         private RadioButton unsupport;
-        private ArticleItem item;
 
         public ViewHolder(View itemView) {
             user_name = ((TextView) itemView.findViewById(R.id.userName));
@@ -122,26 +123,7 @@ public class ArticleItemAdapter extends BaseAdapter {
             unsupport = ((RadioButton) itemView.findViewById(R.id.unsupport));
             image.getHierarchy().setProgressBarImage(new ProgressBarDrawable());
             group = (RadioGroup) itemView.findViewById(R.id.is_support);
-            group.setOnCheckedChangeListener(this);
         }
 
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            switch (checkedId) {
-                case R.id.support:
-                    item.setSupportSate(1);
-                    break;
-                case R.id.unsupport:
-                    item.setSupportSate(2);
-                    break;
-            }
-            Log.d("22", item.getUser().getLogin() + ":" + item.getSupportSate());
-            View buttonView = group.findViewById(checkedId);
-            if (buttonView != null) {
-                ViewCompat.setScaleX(buttonView, 0.8f);
-                ViewCompat.setScaleY(buttonView, 0.8f);
-                ViewCompat.animate(buttonView).scaleX(1).scaleY(1).setDuration(300).start();
-            }
-        }
     }
 }

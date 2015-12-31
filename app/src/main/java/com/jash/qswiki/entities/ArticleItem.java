@@ -1,6 +1,11 @@
 package com.jash.qswiki.entities;
 
+import android.support.v4.view.ViewCompat;
+import android.view.View;
+import android.widget.RadioGroup;
+
 import com.google.gson.annotations.SerializedName;
+import com.jash.qswiki.R;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -11,7 +16,7 @@ import java.util.regex.Pattern;
  * Date: 15-12-30
  * Time: 下午3:21
  */
-public class ArticleItem {
+public class ArticleItem implements RadioGroup.OnCheckedChangeListener {
     private String format;
     private String image;
 
@@ -157,6 +162,25 @@ public class ArticleItem {
 
     public String getType() {
         return type;
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+            switch (checkedId) {
+                case R.id.support:
+                    setSupportSate(1);
+                    break;
+                case R.id.unsupport:
+                    setSupportSate(2);
+                    break;
+            }
+            View buttonView = group.findViewById(checkedId);
+            if (buttonView != null) {
+                ViewCompat.setScaleX(buttonView, 0.8f);
+                ViewCompat.setScaleY(buttonView, 0.8f);
+                ViewCompat.animate(buttonView).scaleX(1).scaleY(1).setDuration(300).start();
+            }
+
     }
 
     public static class UserEntity {
