@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.jash.qswiki.MyDatabase;
 import com.jash.qswiki.R;
 import com.jash.qswiki.adapters.ArticleItemAdapter;
 import com.jash.qswiki.entities.ArticleResult;
@@ -101,6 +102,7 @@ public class ArticleFragment extends Fragment implements Callback<ArticleResult>
             adapter.clear();
         }
         adapter.addAll(response.body().getList());
+        MyDatabase.getDatabase().saveAll(response.body().getList());
         swipe.refreshComplete();
     }
 

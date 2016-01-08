@@ -12,10 +12,10 @@ import android.widget.TextView;
 
 import com.facebook.drawee.drawable.ProgressBarDrawable;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.jash.qswiki.MyDatabase;
 import com.jash.qswiki.R;
 import com.jash.qswiki.entities.ArticleItem;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class ArticleItemAdapter extends BaseAdapter {
 
     public ArticleItemAdapter(Context context) {
         this.context = context;
-        list = new ArrayList<>();
+        list = MyDatabase.getDatabase().findAll(null, null, null, 20);
     }
 
     @Override

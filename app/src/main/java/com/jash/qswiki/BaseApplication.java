@@ -14,5 +14,6 @@ public class BaseApplication extends Application{
     public void onCreate() {
         super.onCreate();
         Fresco.initialize(this);
+        MyDatabase.setDatabase(new MyDatabase(this));
     }
 }

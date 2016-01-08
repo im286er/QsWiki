@@ -4,6 +4,7 @@ import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.widget.RadioGroup;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.google.gson.annotations.SerializedName;
 import com.jash.qswiki.R;
 
@@ -17,6 +18,7 @@ import java.util.regex.Pattern;
  * Time: 下午3:21
  */
 public class ArticleItem implements RadioGroup.OnCheckedChangeListener {
+    @SerializedName("format")
     private String format;
     private String image;
 
@@ -33,10 +35,14 @@ public class ArticleItem implements RadioGroup.OnCheckedChangeListener {
     private int published_at;
     private String tag;
     private UserEntity user;
+    @SerializedName("image_size")
     private ImageSizeEntity image_size;
     private int id;
+    @SerializedName("votes")
     private VotesEntity votes;
     private int created_at;
+    @SerializedName("content")
+    @JSONField(name = "content")
     private String content;
     private String state;
     private int comments_count;
